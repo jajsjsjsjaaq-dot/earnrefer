@@ -1,0 +1,1252 @@
+ <!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EarnRefer - Multi-Reward Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #090d16;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 35%);
+            background-attachment: fixed;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            transition: all 0.25s ease;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- TOP NAVBAR -->
+    <header class="glass-card sticky top-0 z-40 px-4 py-3.5 border-b border-slate-800/80">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5 cursor-pointer group" onclick="openAdminModal()" title="Admin Access">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                </div>
+                <div>
+                    <span class="font-black text-xl tracking-tight text-white block leading-none">Earn<span class="text-indigo-400">Refer</span></span>
+                    <span class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Reward Portal</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button id="logoutBtn" onclick="logout()" class="hidden px-3 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-semibold border border-rose-500/20 transition-all active:scale-95">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ALERT TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 w-full max-w-sm px-4 pointer-events-none"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-md mx-auto w-full p-4 flex-1 flex flex-col justify-center">
+
+        <!-- 1. AUTH / DEPOSIT & LOGIN SCREEN -->
+        <div id="authScreen" class="space-y-6 my-auto py-4 w-full">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-1">
+                    <i class="fa-solid fa-bolt text-xs"></i> Daily 5% Interest Growth
+                </div>
+                <h1 class="text-3xl font-black tracking-tight text-white">Welcome to <span class="gradient-text">EarnRefer</span></h1>
+                <p class="text-slate-400 text-xs sm:text-sm max-w-xs mx-auto">Deposit & grow your balance daily with instant referral rewards</p>
+            </div>
+
+            <!-- TABS SWITCHER -->
+            <div class="flex p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md">
+                <button id="tabRegisterBtn" onclick="switchAuthTab('deposit')" class="w-1/2 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md">
+                    <i class="fa-solid fa-wallet"></i> Register & Deposit
+                </button>
+                <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </button>
+            </div>
+
+            <!-- DEPOSIT FORM -->
+            <div id="registerFormCard" class="glass-card p-6 rounded-3xl space-y-4 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-28 h-28 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="border-b border-slate-800 pb-2">
+                    <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-circle-dollar-to-slot text-indigo-400"></i> Register New Account
+                    </h2>
+                    <p class="text-[11px] text-slate-400">Deposit ₹199 to ₹1999 to start earning daily 5%</p>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Mobile Number</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold">+91</span>
+                        <input type="tel" id="regMobile" maxlength="10" placeholder="Enter 10-digit mobile" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-sm font-semibold tracking-wide transition-all">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Create Password</label>
+                    <div class="relative">
+                        <input type="password" id="regPassword" placeholder="Create your password" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 pl-4 pr-10 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-sm font-mono tracking-widest transition-all">
+                        <button type="button" onclick="togglePassVisibility('regPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300">
+                            <i class="fa-regular fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Sponsor / Referral 10-Digit ID <span class="text-slate-500 font-normal lowercase">(optional)</span></label>
+                    <input type="text" id="regSponsor" maxlength="10" placeholder="Enter 10-digit Referral ID" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-sm font-mono tracking-wider transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Deposit Amount (₹199 - ₹1999)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-emerald-400 text-sm font-extrabold">₹</span>
+                        <input type="number" id="regDepositAmount" min="199" max="1999" placeholder="e.g. 500" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-emerald-300 font-bold placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-sm tracking-wide transition-all">
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-indigo-950/30 border border-indigo-500/20 space-y-1.5">
+                    <p class="text-[11px] text-slate-300 leading-relaxed flex items-start gap-1.5">
+                        <i class="fa-solid fa-circle-info text-indigo-400 text-xs mt-0.5"></i>
+                        <span>Your deposit will be added to your Main Balance with a 5% daily growth rate!</span>
+                    </p>
+                </div>
+
+                <button onclick="openPaymentModal()" class="w-full gradient-btn text-white py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fa-solid fa-mobile-screen-button text-sm"></i> Pay via PhonePe / GPay / Paytm
+                </button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="loginFormCard" class="hidden glass-card p-6 rounded-3xl space-y-4 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-28 h-28 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="border-b border-slate-800 pb-2">
+                    <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket text-purple-400"></i> Account Login
+                    </h2>
+                    <p class="text-[11px] text-slate-400">Enter your mobile & password to access your dashboard</p>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Mobile Number</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 text-xs font-bold">+91</span>
+                        <input type="tel" id="loginMobile" maxlength="10" placeholder="Enter registered mobile" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-purple-500 text-sm font-semibold tracking-wide transition-all">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Password</label>
+                    <div class="relative">
+                        <input type="password" id="loginPassword" placeholder="Enter your password" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 pl-4 pr-10 text-white placeholder-slate-600 focus:outline-none focus:border-purple-500 text-sm font-mono tracking-widest transition-all">
+                        <button type="button" onclick="togglePassVisibility('loginPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300">
+                            <i class="fa-regular fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fa-solid fa-lock"></i> Login to Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. USER DASHBOARD SCREEN -->
+        <div id="dashboardScreen" class="hidden space-y-5 my-auto py-2">
+            <div class="flex items-center justify-between text-xs font-medium text-slate-400 px-1">
+                <span class="flex items-center gap-1.5 text-emerald-400 font-semibold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Daily +5% Active
+                </span>
+                <span class="bg-slate-900 px-3 py-1 rounded-full border border-slate-800 text-slate-300">
+                    Mobile: <strong id="userMobileDisplay" class="text-white font-mono">--</strong>
+                </span>
+            </div>
+
+            <!-- User 10-Digit ID Box -->
+            <div class="glass-card p-5 rounded-2xl relative overflow-hidden border-indigo-500/30">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
+                <p class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider mb-1">Your 10-Digit Referral ID</p>
+                <div class="flex items-center justify-between gap-2 mt-2">
+                    <span id="user10DigitId" class="text-2xl font-black tracking-widest text-white font-mono">----------</span>
+                    <button onclick="copyReferralLink()" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 rounded-xl border border-indigo-500/30 transition-all active:scale-95 flex items-center gap-1.5 text-xs font-bold">
+                        <i class="fa-regular fa-copy text-sm"></i> Copy ID
+                    </button>
+                </div>
+            </div>
+
+            <!-- BONUS BALANCE CARD -->
+            <div class="glass-card glass-card-hover p-5 rounded-2xl space-y-3 border-purple-500/30 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Bonus Balance</p>
+                        <h2 class="text-3xl font-black text-white mt-1">₹<span id="bonusBalance">0</span></h2>
+                    </div>
+                    <div class="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shadow-inner">
+                        <i class="fa-solid fa-gift text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400">Earn ₹100 instantly for every new referral.</p>
+                
+                <!-- BONUS WITHDRAWAL SECTION -->
+                <div class="pt-2 border-t border-slate-800/80 space-y-1.5">
+                    <button id="bonusWithdrawBtn" onclick="initiateWithdrawal('bonus')" class="w-full bg-slate-800 text-slate-500 py-2.5 rounded-xl font-bold text-xs border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-not-allowed">
+                        <i class="fa-solid fa-lock"></i> Withdraw Bonus
+                    </button>
+                    <p id="bonusWithdrawStatus" class="text-[11px] text-amber-400 font-medium text-center">Withdrawal unlocks at ₹500 bonus balance</p>
+                </div>
+            </div>
+
+            <!-- MAIN BALANCE CARD (grows 5% daily) -->
+            <div class="glass-card glass-card-hover p-5 rounded-2xl space-y-3 border-emerald-500/30 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Main Balance (+5% Daily)</p>
+                        <h2 class="text-3xl font-black text-white mt-1">₹<span id="mainBalance">0</span></h2>
+                    </div>
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-inner">
+                        <i class="fa-solid fa-wallet text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400">Grows automatically by 5% every 24 hours.</p>
+
+                <!-- MAIN BALANCE ACTIONS & WITHDRAWAL -->
+                <div class="pt-2 border-t border-slate-800/80 space-y-2">
+                    <button id="mainWithdrawBtn" onclick="initiateWithdrawal('main')" class="w-full bg-slate-800 text-slate-500 py-2.5 rounded-xl font-bold text-xs border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-not-allowed">
+                        <i class="fa-solid fa-lock"></i> Withdraw Main Balance
+                    </button>
+                    <p id="mainWithdrawStatus" class="text-[11px] text-amber-400 font-medium text-center">Withdrawal unlocks at ₹30,000 main balance</p>
+                </div>
+            </div>
+
+            <!-- SAVED BANK DETAILS CARD -->
+            <div id="userBankInfoCard" class="hidden glass-card p-5 rounded-2xl space-y-2 border-cyan-500/30">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-xs text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-building-columns"></i> Saved Bank Account
+                    </h3>
+                    <span class="text-[10px] bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 px-2 py-0.5 rounded-full font-bold">Active</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+                    <div>
+                        <p class="text-[10px] text-slate-400">Account Holder</p>
+                        <p id="cardHolderName" class="font-bold text-white">--</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-slate-400">Bank Name</p>
+                        <p id="cardBankName" class="font-bold text-white">--</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-slate-400">Account Number</p>
+                        <p id="cardAccNumber" class="font-bold text-emerald-400 font-mono">--</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-slate-400">IFSC Code</p>
+                        <p id="cardIfscCode" class="font-bold text-white font-mono">--</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Stats Box -->
+            <div class="glass-card p-5 rounded-2xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-300 uppercase tracking-wider">YOUR TEAM NETWORK</h3>
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 text-xs border border-indigo-500/20">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+                <div class="flex items-baseline justify-between pt-1">
+                    <span class="text-4xl font-black text-indigo-400 font-mono" id="teamCount">0</span>
+                    <span class="text-xs text-slate-400 font-medium bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">Direct Referrals Joined</span>
+                </div>
+            </div>
+
+            <!-- Share Referral Link Section -->
+            <div class="glass-card p-5 rounded-2xl space-y-3 border-indigo-500/20">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Share Referral Link</label>
+                <div class="flex gap-2">
+                    <input type="text" id="shareUrlInput" readonly class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-slate-300 font-mono focus:outline-none select-all">
+                    <button onclick="copyReferralLink()" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
+                <button onclick="shareOnWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Share Link on WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. SECRET OWNER / ADMIN PANEL -->
+        <div id="adminScreen" class="hidden space-y-5 my-auto py-2">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold border border-amber-500/30">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-extrabold text-slate-100 text-sm">Owner Control Panel</h2>
+                        <p class="text-[10px] text-slate-400">Withdrawals, Payments & User Management</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminPanel()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-all">
+                    Exit Admin
+                </button>
+            </div>
+
+            <!-- TOP WITHDRAWAL NOTIFICATIONS SECTION -->
+            <div class="glass-card p-4 rounded-2xl space-y-3 border-rose-500/40 bg-rose-950/10">
+                <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+                    <h3 class="font-extrabold text-xs text-rose-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-bell text-rose-500 animate-bounce"></i> Top Withdrawal Notifications
+                    </h3>
+                    <span id="withdrawalBadge" class="bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold">0 Pending</span>
+                </div>
+                
+                <div id="adminWithdrawalRequestsList" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 text-center py-4">No withdrawal requests found.</p>
+                </div>
+            </div>
+
+            <!-- System Financial Overview -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="glass-card p-4 rounded-2xl space-y-1 border-emerald-500/20">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Deposit Collected</p>
+                    <p class="text-2xl font-black text-emerald-400 font-mono" id="adminTotalCollected">₹0</p>
+                </div>
+                <div class="glass-card p-4 rounded-2xl space-y-1 border-indigo-500/20">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Active Users</p>
+                    <p class="text-2xl font-black text-indigo-400 font-mono" id="adminTotalUsers">0</p>
+                </div>
+            </div>
+
+            <!-- All Users Control List -->
+            <div class="glass-card p-4 rounded-2xl space-y-3 border-indigo-500/20">
+                <h3 class="font-bold text-xs text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-users-gear text-indigo-400"></i> All User Details & Control
+                </h3>
+                
+                <div id="adminUsersList" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 text-center py-4">No users found.</p>
+                </div>
+            </div>
+
+            <!-- Login & Deposit Logs List -->
+            <div class="glass-card p-4 rounded-2xl space-y-3 border-amber-500/20">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-clock-rotate-left text-amber-400"></i> Registration & Payment Timestamps
+                    </h3>
+                    <span id="logBadge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold">0 Logs</span>
+                </div>
+                
+                <div id="loginLogsList" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 text-center py-4">No payment logs found.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- HYBRID UPI INTENT & QR MODAL -->
+    <div id="paymentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-6 space-y-4 border-emerald-500/30 shadow-2xl relative overflow-hidden text-center max-h-[90vh] overflow-y-auto">
+            <div class="space-y-1.5">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto text-xl border border-indigo-500/30">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-100 text-base">Complete Payment</h3>
+                <p class="text-xs text-slate-400">Deposit Amount: <strong class="text-emerald-400 font-mono text-sm" id="payModalAmount">₹0</strong></p>
+            </div>
+
+            <!-- PAYMENT METHOD TABS SWITCHER -->
+            <div class="flex p-1 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-bold">
+                <button id="payTabAppsBtn" onclick="switchPayMethod('apps')" class="w-1/2 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition-all flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-mobile-screen"></i> Direct App Launch
+                </button>
+                <button id="payTabQrBtn" onclick="switchPayMethod('qr')" class="w-1/2 py-2 rounded-lg text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-qrcode"></i> QR / Manual UPI
+                </button>
+            </div>
+
+            <!-- TAB 1: DIRECT UPI APP LAUNCH BUTTONS -->
+            <div id="payAppsSection" class="space-y-2.5 pt-1">
+                <button onclick="redirectToUPI('phonepe')" class="w-full bg-purple-700/80 hover:bg-purple-600 text-white py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-between border border-purple-500/40 shadow-lg transition-all active:scale-95">
+                    <span class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-purple-700 font-black text-sm">P</div>
+                        <span>Pay via PhonePe</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-purple-300 text-xs"></i>
+                </button>
+
+                <button onclick="redirectToUPI('gpay')" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-between border border-slate-600/40 shadow-lg transition-all active:scale-95">
+                    <span class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-blue-600 font-black text-xs">G</div>
+                        <span>Pay via Google Pay</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                </button>
+
+                <button onclick="redirectToUPI('paytm')" class="w-full bg-cyan-900/60 hover:bg-cyan-800/80 text-white py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-between border border-cyan-500/40 shadow-lg transition-all active:scale-95">
+                    <span class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 flex items-center justify-center font-black text-[10px]">PAYTM</div>
+                        <span>Pay via Paytm</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-cyan-300 text-xs"></i>
+                </button>
+
+                <button onclick="redirectToUPI('generic')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-between border border-slate-700 shadow-lg transition-all active:scale-95">
+                    <span class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                        <span>Other UPI Apps</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
+                </button>
+
+                <div class="p-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-indigo-300 text-[11px] text-left leading-relaxed">
+                    <i class="fa-solid fa-triangle-exclamation text-indigo-400 mr-1"></i> Agar app na khule toh WhatsApp/Instagram se link ko <strong>Google Chrome</strong> mein open karein ya "QR / Manual UPI" tab use karein.
+                </div>
+            </div>
+
+            <!-- TAB 2: QR & MANUAL UPI COPY -->
+            <div id="payQrSection" class="hidden space-y-3 pt-1">
+                <div class="bg-white p-3 rounded-2xl inline-block shadow-lg mx-auto border-2 border-indigo-500/30">
+                    <img id="dynamicQrImage" src="1000066838.jpg" alt="Payment QR Code" class="w-44 h-44 mx-auto object-contain rounded-lg">
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-2">
+                    <div class="text-left overflow-hidden">
+                        <p class="text-[10px] text-slate-400 uppercase font-bold">UPI ID</p>
+                        <p class="text-xs font-mono font-bold text-emerald-400 truncate">8825354587@ybl</p>
+                    </div>
+                    <button onclick="copyUpiId()" class="px-3 py-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 rounded-xl border border-indigo-500/30 text-xs font-bold whitespace-nowrap active:scale-95">
+                        <i class="fa-regular fa-copy mr-1"></i> Copy UPI ID
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] text-left leading-relaxed space-y-1">
+                <p class="font-bold flex items-center gap-1.5 text-amber-400">
+                    <i class="fa-solid fa-circle-info"></i> Important Steps:
+                </p>
+                <p>1. Payment safaltapoorvak poora karein.</p>
+                <p>2. Payment ke baad niche <strong>"Payment Ho Gaya, Register Karein"</strong> button dabaayein.</p>
+            </div>
+
+            <div class="space-y-2 pt-1">
+                <button onclick="completeRegistrationAfterPayment()" class="w-full gradient-btn text-white py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-indigo-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> Payment Ho Gaya, Register Karein
+                </button>
+                <button onclick="closePaymentModal()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold text-xs">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANK DETAILS & WITHDRAWAL MODAL -->
+    <div id="bankDetailsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-6 space-y-4 border-cyan-500/30 shadow-2xl relative">
+            <div class="text-center space-y-1.5">
+                <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto text-xl border border-cyan-500/30">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-100 text-base">Bank Withdrawal Details</h3>
+                <p class="text-xs text-slate-400">Enter bank info to request payout of <strong class="text-emerald-400 font-mono" id="withdrawModalAmt">₹0</strong></p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Account Holder Name</label>
+                    <input type="text" id="bankAccHolder" placeholder="e.g. Rahul Kumar" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Bank Name</label>
+                    <input type="text" id="bankName" placeholder="e.g. State Bank of India" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Account Number</label>
+                    <input type="text" id="bankAccNumber" placeholder="Enter bank account number" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">IFSC Code</label>
+                    <input type="text" id="bankIfscCode" placeholder="e.g. SBIN0001234" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono uppercase">
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeBankModal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs">Cancel</button>
+                <button onclick="submitWithdrawalRequest()" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white py-2.5 rounded-xl font-bold text-xs shadow-lg shadow-cyan-600/20">Submit Payout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PASSWORD MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="glass-card w-full max-w-xs rounded-3xl p-6 space-y-4 border-amber-500/30 shadow-2xl">
+            <div class="text-center space-y-1.5">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xl border border-amber-500/30">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-100 text-base">Owner Access</h3>
+                <p class="text-xs text-slate-400">Enter secret owner password</p>
+            </div>
+
+            <div>
+                <input type="password" id="adminPassInput" placeholder="Enter Owner Password" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-3 text-xs text-white text-center focus:outline-none focus:border-amber-500 font-mono tracking-widest">
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closeAdminModal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs">Cancel</button>
+                <button onclick="verifyAdminPassword()" class="w-1/2 bg-amber-600 hover:bg-amber-500 text-white py-2.5 rounded-xl font-bold text-xs shadow-lg shadow-amber-600/20">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC SCRIPT -->
+    <script>
+        // State variables
+        let users = JSON.parse(localStorage.getItem('er_users')) || {};
+        let loginLogs = JSON.parse(localStorage.getItem('er_login_logs')) || [];
+        let withdrawalRequests = JSON.parse(localStorage.getItem('er_withdrawals')) || [];
+        let currentUser = null;
+        let pendingRegistration = null;
+        let currentWithdrawType = null;
+
+        const ADMIN_SECRET_PASS = "8825354587@#arkh";
+        const MERCHANT_UPI_ID = "8825354587@ybl";
+        const MERCHANT_NAME = "EarnRefer";
+
+        window.onload = function() {
+            // Check for referral ID in URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const refParam = urlParams.get('ref');
+            if (refParam && refParam.length === 10) {
+                const sponsorInput = document.getElementById('regSponsor');
+                if (sponsorInput) sponsorInput.value = refParam;
+            }
+
+            // Calculate 5% Daily Growth
+            applyDailyInterest();
+
+            // Auto-restore login session
+            const savedMobile = sessionStorage.getItem('er_active_user');
+            if (savedMobile && users[savedMobile]) {
+                currentUser = users[savedMobile];
+                loadUserDashboard();
+            }
+        };
+
+        function applyDailyInterest() {
+            const now = Date.now();
+            const lastUpdate = localStorage.getItem('er_last_interest_time') || now;
+            const oneDayMs = 24 * 60 * 60 * 1000;
+
+            if (now - lastUpdate >= oneDayMs) {
+                const daysPassed = Math.floor((now - lastUpdate) / oneDayMs);
+                Object.keys(users).forEach(mob => {
+                    let u = users[mob];
+                    if (u.balance > 0) {
+                        for (let i = 0; i < daysPassed; i++) {
+                            u.balance = Math.round((u.balance * 1.05) * 100) / 100;
+                        }
+                    }
+                });
+                localStorage.setItem('er_users', JSON.stringify(users));
+                localStorage.setItem('er_last_interest_time', now);
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const regBtn = document.getElementById('tabRegisterBtn');
+            const loginBtn = document.getElementById('tabLoginBtn');
+            const regForm = document.getElementById('registerFormCard');
+            const loginForm = document.getElementById('loginFormCard');
+
+            if (tab === 'deposit') {
+                regBtn.className = "w-1/2 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md";
+                loginBtn.className = "w-1/2 py-2.5 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2";
+                regForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            } else {
+                loginBtn.className = "w-1/2 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md";
+                regBtn.className = "w-1/2 py-2.5 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2";
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+            }
+        }
+
+        function switchPayMethod(method) {
+            const appsBtn = document.getElementById('payTabAppsBtn');
+            const qrBtn = document.getElementById('payTabQrBtn');
+            const appsSec = document.getElementById('payAppsSection');
+            const qrSec = document.getElementById('payQrSection');
+
+            if (method === 'apps') {
+                appsBtn.className = "w-1/2 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition-all flex items-center justify-center gap-1.5";
+                qrBtn.className = "w-1/2 py-2 rounded-lg text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5";
+                appsSec.classList.remove('hidden');
+                qrSec.classList.add('hidden');
+            } else {
+                qrBtn.className = "w-1/2 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition-all flex items-center justify-center gap-1.5";
+                appsBtn.className = "w-1/2 py-2 rounded-lg text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5";
+                qrSec.classList.remove('hidden');
+                appsSec.classList.add('hidden');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let bgClass = 'bg-slate-900 border-slate-700 text-slate-200';
+            let icon = 'fa-circle-info text-indigo-400';
+            
+            if (type === 'success') {
+                bgClass = 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200';
+                icon = 'fa-circle-check text-emerald-400';
+            } else if (type === 'error') {
+                bgClass = 'bg-rose-950/90 border-rose-500/40 text-rose-200';
+                icon = 'fa-circle-exclamation text-rose-400';
+            } else if (type === 'warning') {
+                bgClass = 'bg-amber-950/90 border-amber-500/40 text-amber-200';
+                icon = 'fa-triangle-exclamation text-amber-400';
+            }
+
+            toast.className = `p-3 rounded-2xl border text-xs font-semibold shadow-xl flex items-center gap-2.5 mb-2 transition-all duration-300 opacity-0 translate-y-2 pointer-events-auto ${bgClass}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span class="flex-1">${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('opacity-0', 'translate-y-2'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function generate10DigitId() {
+            let id = '';
+            for (let i = 0; i < 10; i++) id += Math.floor(Math.random() * 10);
+            return id;
+        }
+
+        function togglePassVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash text-xs';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye text-xs';
+            }
+        }
+
+        function openPaymentModal() {
+            const mobile = document.getElementById('regMobile').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const sponsorId = document.getElementById('regSponsor').value.trim();
+            const depositAmt = parseFloat(document.getElementById('regDepositAmount').value.trim());
+
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                showToast('Kripya 10 ank ka sahi mobile number darj karein.', 'warning');
+                return;
+            }
+
+            if (!password) {
+                showToast('Kripya naya password banayein.', 'warning');
+                return;
+            }
+
+            if (isNaN(depositAmt) || depositAmt < 199 || depositAmt > 1999) {
+                showToast('Deposit amount ₹199 se ₹1999 ke beech hona chahiye.', 'warning');
+                return;
+            }
+
+            if (users[mobile]) {
+                showToast('Yeh mobile number pehle se registered hai! Kripya Login karein.', 'warning');
+                switchAuthTab('login');
+                document.getElementById('loginMobile').value = mobile;
+                return;
+            }
+
+            pendingRegistration = {
+                mobile: mobile,
+                password: password,
+                sponsorId: sponsorId || null,
+                depositAmt: depositAmt
+            };
+
+            document.getElementById('payModalAmount').innerText = `₹${depositAmt}`;
+            switchPayMethod('apps');
+            document.getElementById('paymentModal').classList.remove('hidden');
+            document.getElementById('paymentModal').classList.add('flex');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+            document.getElementById('paymentModal').classList.remove('flex');
+            pendingRegistration = null;
+        }
+
+        function redirectToUPI(appType) {
+            if (!pendingRegistration) return;
+            
+            const amt = pendingRegistration.depositAmt;
+            const note = `EarnRefer Deposit for ${pendingRegistration.mobile}`;
+            
+            const standardUri = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+            
+            let targetUrl = standardUri;
+
+            // App-specific URI schemes
+            if (appType === 'phonepe') {
+                targetUrl = `phonepe://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+            } else if (appType === 'gpay') {
+                targetUrl = `tez://upi/pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+            } else if (appType === 'paytm') {
+                targetUrl = `paytmmp://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
+            }
+
+            showToast(`Opening UPI App for ₹${amt}...`, 'info');
+
+            // Attempt direct custom scheme launch
+            window.location.href = targetUrl;
+
+            // Fallback to standard universal UPI link after timeout if custom scheme fails
+            setTimeout(function() {
+                window.location.href = standardUri;
+            }, 1200);
+        }
+
+        function copyUpiId() {
+            const upiId = MERCHANT_UPI_ID;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(upiId);
+            } else {
+                const tempInput = document.createElement('input');
+                tempInput.value = upiId;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            }
+            showToast('UPI ID copy ho gayi hai! Kishi bhi app me paste karke pay karein.', 'success');
+        }
+
+        function completeRegistrationAfterPayment() {
+            if (!pendingRegistration) return;
+
+            let uniqueId = generate10DigitId();
+            while (Object.values(users).some(u => u.id === uniqueId)) {
+                uniqueId = generate10DigitId();
+            }
+
+            const newUser = {
+                mobile: pendingRegistration.mobile,
+                password: pendingRegistration.password,
+                id: uniqueId,
+                sponsorId: pendingRegistration.sponsorId,
+                bonus: 0,
+                balance: pendingRegistration.depositAmt,
+                teamCount: 0,
+                bankDetails: null
+            };
+
+            // Process referral bonus & commission if valid sponsor ID provided
+            if (pendingRegistration.sponsorId) {
+                let sponsorMobile = Object.keys(users).find(m => users[m].id === pendingRegistration.sponsorId);
+                if (sponsorMobile && users[sponsorMobile]) {
+                    users[sponsorMobile].bonus = (users[sponsorMobile].bonus || 0) + 100;
+                    
+                    let commission40 = pendingRegistration.depositAmt * 0.40;
+                    users[sponsorMobile].balance = Math.round(((users[sponsorMobile].balance || 0) + commission40) * 100) / 100;
+                    
+                    users[sponsorMobile].teamCount = (users[sponsorMobile].teamCount || 0) + 1;
+                }
+            }
+
+            users[pendingRegistration.mobile] = newUser;
+
+            const logItem = {
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                mobile: pendingRegistration.mobile,
+                userId: uniqueId,
+                deposit: pendingRegistration.depositAmt,
+                method: 'UPI Direct / QR',
+                sponsor: pendingRegistration.sponsorId || 'Direct'
+            };
+            loginLogs.push(logItem);
+            saveData();
+
+            closePaymentModal();
+
+            document.getElementById('regMobile').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regSponsor').value = '';
+            document.getElementById('regDepositAmount').value = '';
+
+            switchAuthTab('login');
+            document.getElementById('loginMobile').value = newUser.mobile;
+            showToast('Account Created! Aapka 10-Digit ID hai: ' + uniqueId + '. Ab Login karein.', 'success');
+        }
+
+        function handleLogin() {
+            const mobile = document.getElementById('loginMobile').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                showToast('Kripya 10 ank ka sahi mobile number darj karein.', 'warning');
+                return;
+            }
+
+            if (!password) {
+                showToast('Kripya password darj karein.', 'warning');
+                return;
+            }
+
+            if (!users[mobile]) {
+                showToast('Account nahi mila! Pehle Deposit karke register karein.', 'error');
+                return;
+            }
+
+            if (users[mobile].password === password) {
+                currentUser = users[mobile];
+                sessionStorage.setItem('er_active_user', mobile);
+
+                showToast('Login successful! Dashboard khul raha hai...', 'success');
+                loadUserDashboard();
+            } else {
+                showToast('Galat password! Sahi password dalein.', 'error');
+            }
+        }
+
+        function loadUserDashboard() {
+            if (!currentUser) return;
+
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            document.getElementById('logoutBtn').classList.remove('hidden');
+
+            document.getElementById('userMobileDisplay').innerText = currentUser.mobile;
+            document.getElementById('user10DigitId').innerText = currentUser.id;
+            
+            const currentBonus = currentUser.bonus || 0;
+            const currentMain = currentUser.balance || 0;
+
+            document.getElementById('bonusBalance').innerText = currentBonus;
+            document.getElementById('mainBalance').innerText = currentMain;
+            document.getElementById('teamCount').innerText = currentUser.teamCount || 0;
+
+            const bonusBtn = document.getElementById('bonusWithdrawBtn');
+            const bonusStatus = document.getElementById('bonusWithdrawStatus');
+            if (currentBonus >= 500) {
+                bonusBtn.className = "w-full bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl font-bold text-xs border border-purple-400 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-purple-600/20";
+                bonusBtn.innerHTML = `<i class="fa-solid fa-hand-holding-dollar"></i> Withdraw Bonus (₹${currentBonus})`;
+                bonusStatus.className = "text-[11px] text-emerald-400 font-bold text-center";
+                bonusStatus.innerText = "✓ Bonus Withdrawal Threshold Achieved!";
+            } else {
+                bonusBtn.className = "w-full bg-slate-800 text-slate-500 py-2.5 rounded-xl font-bold text-xs border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-not-allowed";
+                bonusBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Withdraw Bonus`;
+                bonusStatus.className = "text-[11px] text-amber-400 font-medium text-center";
+                bonusStatus.innerText = `Withdrawal unlocks at ₹500 bonus balance (Need ₹${500 - currentBonus} more)`;
+            }
+
+            const mainBtn = document.getElementById('mainWithdrawBtn');
+            const mainStatus = document.getElementById('mainWithdrawStatus');
+            if (currentMain >= 30000) {
+                mainBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold text-xs border border-emerald-400 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-emerald-600/20";
+                mainBtn.innerHTML = `<i class="fa-solid fa-money-bill-transfer"></i> Withdraw Main Balance (₹${currentMain})`;
+                mainStatus.className = "text-[11px] text-emerald-400 font-bold text-center";
+                mainStatus.innerText = "✓ Main Balance Withdrawal Threshold Achieved!";
+            } else {
+                mainBtn.className = "w-full bg-slate-800 text-slate-500 py-2.5 rounded-xl font-bold text-xs border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-not-allowed";
+                mainBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Withdraw Main Balance`;
+                mainStatus.className = "text-[11px] text-amber-400 font-medium text-center";
+                mainStatus.innerText = `Withdrawal unlocks at ₹30,000 main balance (Need ₹${(30000 - currentMain).toFixed(2)} more)`;
+            }
+
+            const bankCard = document.getElementById('userBankInfoCard');
+            if (currentUser.bankDetails) {
+                bankCard.classList.remove('hidden');
+                document.getElementById('cardHolderName').innerText = currentUser.bankDetails.holderName;
+                document.getElementById('cardBankName').innerText = currentUser.bankDetails.bankName;
+                document.getElementById('cardAccNumber').innerText = currentUser.bankDetails.accountNo;
+                document.getElementById('cardIfscCode').innerText = currentUser.bankDetails.ifscCode;
+            } else {
+                bankCard.classList.add('hidden');
+            }
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            document.getElementById('shareUrlInput').value = `${baseUrl}?ref=${currentUser.id}`;
+        }
+
+        function initiateWithdrawal(type) {
+            if (!currentUser) return;
+            currentWithdrawType = type;
+
+            const amount = type === 'bonus' ? currentUser.bonus : currentUser.balance;
+            const threshold = type === 'bonus' ? 500 : 30000;
+
+            if (amount < threshold) {
+                showToast(`Withdrawal eligible only after reaching ₹${threshold}`, 'warning');
+                return;
+            }
+
+            document.getElementById('withdrawModalAmt').innerText = `₹${amount}`;
+
+            if (currentUser.bankDetails) {
+                document.getElementById('bankAccHolder').value = currentUser.bankDetails.holderName || '';
+                document.getElementById('bankName').value = currentUser.bankDetails.bankName || '';
+                document.getElementById('bankAccNumber').value = currentUser.bankDetails.accountNo || '';
+                document.getElementById('bankIfscCode').value = currentUser.bankDetails.ifscCode || '';
+            }
+
+            document.getElementById('bankDetailsModal').classList.remove('hidden');
+            document.getElementById('bankDetailsModal').classList.add('flex');
+        }
+
+        function closeBankModal() {
+            document.getElementById('bankDetailsModal').classList.add('hidden');
+            document.getElementById('bankDetailsModal').classList.remove('flex');
+            currentWithdrawType = null;
+        }
+
+        function submitWithdrawalRequest() {
+            if (!currentUser || !currentWithdrawType) return;
+
+            const holderName = document.getElementById('bankAccHolder').value.trim();
+            const bankName = document.getElementById('bankName').value.trim();
+            const accountNo = document.getElementById('bankAccNumber').value.trim();
+            const ifscCode = document.getElementById('bankIfscCode').value.trim().toUpperCase();
+
+            if (!holderName || !bankName || !accountNo || !ifscCode) {
+                showToast('Kripya sabhi Bank Details dhyan se bharein.', 'warning');
+                return;
+            }
+
+            const bankObj = {
+                holderName: holderName,
+                bankName: bankName,
+                accountNo: accountNo,
+                ifscCode: ifscCode
+            };
+            currentUser.bankDetails = bankObj;
+
+            const withdrawAmount = currentWithdrawType === 'bonus' ? currentUser.bonus : currentUser.balance;
+
+            if (currentWithdrawType === 'bonus') {
+                currentUser.bonus = 0;
+            } else {
+                currentUser.balance = 0;
+            }
+
+            users[currentUser.mobile] = currentUser;
+
+            const req = {
+                id: 'WD' + Math.floor(100000 + Math.random() * 900000),
+                mobile: currentUser.mobile,
+                userId: currentUser.id,
+                type: currentWithdrawType.toUpperCase(),
+                amount: withdrawAmount,
+                bankDetails: bankObj,
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                status: 'PENDING'
+            };
+
+            withdrawalRequests.unshift(req);
+            saveData();
+
+            closeBankModal();
+            loadUserDashboard();
+            showToast('Withdrawal request submit ho gayi hai! Balance deduct kar diya gaya hai.', 'success');
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+            document.getElementById('adminAuthModal').classList.add('flex');
+            document.getElementById('adminPassInput').focus();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+            document.getElementById('adminAuthModal').classList.remove('flex');
+            document.getElementById('adminPassInput').value = '';
+        }
+
+        function verifyAdminPassword() {
+            const pwd = document.getElementById('adminPassInput').value.trim();
+            if (pwd === ADMIN_SECRET_PASS) {
+                closeAdminModal();
+                loadAdminPanel();
+            } else {
+                showToast("Galat Admin Password!", "error");
+            }
+        }
+
+        function loadAdminPanel() {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.remove('hidden');
+
+            const totalUsersCount = Object.keys(users).length;
+            document.getElementById('adminTotalUsers').innerText = totalUsersCount;
+            
+            let totalCollected = 0;
+            loginLogs.forEach(l => { totalCollected += l.deposit; });
+            document.getElementById('adminTotalCollected').innerText = `₹${totalCollected}`;
+
+            document.getElementById('logBadge').innerText = `${loginLogs.length} Logs`;
+
+            const wdContainer = document.getElementById('adminWithdrawalRequestsList');
+            wdContainer.innerHTML = '';
+            
+            const pendingReqs = withdrawalRequests.filter(r => r.status === 'PENDING');
+            document.getElementById('withdrawalBadge').innerText = `${pendingReqs.length} Pending`;
+
+            if (withdrawalRequests.length === 0) {
+                wdContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Koi withdrawal request nahi hai.</p>`;
+            } else {
+                withdrawalRequests.forEach(req => {
+                    const item = document.createElement('div');
+                    let statusBg = req.status === 'PENDING' ? 'bg-amber-500/10 border-amber-500/40 text-amber-300' : (req.status === 'APPROVED' ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-300' : 'bg-rose-500/10 border-rose-500/40 text-rose-300');
+
+                    item.className = `p-3.5 rounded-2xl border space-y-2 text-xs ${statusBg}`;
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <div>
+                                <span class="font-extrabold text-white text-sm">₹${req.amount}</span>
+                                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full ml-2 text-slate-300 font-bold">${req.type} WITHDRAWAL</span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${req.status === 'PENDING' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : (req.status === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border-rose-500/40')}">${req.status}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-1 text-[11px] text-slate-300 pt-1">
+                            <p>Mobile: <strong class="text-white">${req.mobile}</strong></p>
+                            <p>User ID: <strong class="text-indigo-300 font-mono">${req.userId}</strong></p>
+                            <p>Holder: <strong class="text-white">${req.bankDetails.holderName}</strong></p>
+                            <p>Bank: <strong class="text-white">${req.bankDetails.bankName}</strong></p>
+                            <p>Acc No: <strong class="text-emerald-400 font-mono">${req.bankDetails.accountNo}</strong></p>
+                            <p>IFSC: <strong class="text-cyan-300 font-mono">${req.bankDetails.ifscCode}</strong></p>
+                        </div>
+                        
+                        <p class="text-[10px] text-slate-400">${req.date}</p>
+
+                        ${req.status === 'PENDING' ? `
+                            <div class="flex gap-2 pt-1 border-t border-slate-800">
+                                <button onclick="updateWithdrawalStatus('${req.id}', 'APPROVED')" class="w-1/2 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px]">
+                                    <i class="fa-solid fa-check mr-1"></i> Approve & Pay
+                                </button>
+                                <button onclick="updateWithdrawalStatus('${req.id}', 'REJECTED')" class="w-1/2 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-bold text-[11px]">
+                                    <i class="fa-solid fa-xmark mr-1"></i> Reject
+                                </button>
+                            </div>
+                        ` : ''}
+                    `;
+                    wdContainer.appendChild(item);
+                });
+            }
+
+            const usersContainer = document.getElementById('adminUsersList');
+            usersContainer.innerHTML = '';
+            if (totalUsersCount === 0) {
+                usersContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Koi user registered nahi hai.</p>`;
+            } else {
+                Object.keys(users).forEach(mob => {
+                    let u = users[mob];
+                    const uItem = document.createElement('div');
+                    uItem.className = "p-3.5 bg-slate-950/90 rounded-2xl border border-slate-800 space-y-2 text-xs";
+                    
+                    let bankText = u.bankDetails ? `${u.bankDetails.bankName} (${u.bankDetails.accountNo})` : 'Not Provided';
+
+                    uItem.innerHTML = `
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <span class="font-bold text-white">Mobile: ${u.mobile}</span>
+                            <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-mono">ID: ${u.id}</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 text-[11px] text-slate-300">
+                            <p>Main Bal: <strong class="text-emerald-400">₹${u.balance}</strong></p>
+                            <p>Bonus: <strong class="text-purple-400">₹${u.bonus}</strong></p>
+                            <p>Team: <strong class="text-indigo-400">${u.teamCount}</strong></p>
+                        </div>
+                        <div class="text-[11px] text-slate-400 border-t border-slate-800/60 pt-1">
+                            <span>Password: <strong class="text-slate-200 font-mono">${u.password}</strong></span> | 
+                            <span>Bank: <strong class="text-cyan-300">${bankText}</strong></span>
+                        </div>
+                        <div class="pt-1 flex justify-end">
+                            <button onclick="deleteUserAccount('${u.mobile}')" class="px-3 py-1 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg text-[10px] font-bold border border-rose-500/30 transition-all">
+                                <i class="fa-solid fa-trash mr-1"></i> Delete Account
+                            </button>
+                        </div>
+                    `;
+                    usersContainer.appendChild(uItem);
+                });
+            }
+
+            const logContainer = document.getElementById('loginLogsList');
+            logContainer.innerHTML = '';
+            if (loginLogs.length === 0) {
+                logContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Koi payment log nahi hai.</p>`;
+            } else {
+                loginLogs.slice().reverse().forEach(log => {
+                    const item = document.createElement('div');
+                    item.className = "p-3 bg-slate-950/90 rounded-2xl border border-slate-800 space-y-1 text-xs";
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center text-slate-300 font-bold">
+                            <span>Mobile: ${log.mobile} (${log.userId})</span>
+                            <span class="text-emerald-400 font-mono">₹${log.deposit} via ${log.method || 'UPI Direct App'}</span>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>Sponsor ID: ${log.sponsor}</span>
+                            <span class="text-slate-500">${log.date}</span>
+                        </div>
+                    `;
+                    logContainer.appendChild(item);
+                });
+            }
+        }
+
+        function updateWithdrawalStatus(reqId, status) {
+            let req = withdrawalRequests.find(r => r.id === reqId);
+            if (req) {
+                req.status = status;
+                saveData();
+                showToast(`Withdrawal Request ${status}!`, status === 'APPROVED' ? 'success' : 'error');
+                loadAdminPanel();
+            }
+        }
+
+        function deleteUserAccount(mobile) {
+            delete users[mobile];
+            saveData();
+            showToast('User account successfully delete kar diya gaya!', 'success');
+            loadAdminPanel();
+        }
+
+        function closeAdminPanel() {
+            if (currentUser) {
+                loadUserDashboard();
+            } else {
+                document.getElementById('adminScreen').classList.add('hidden');
+                document.getElementById('authScreen').classList.remove('hidden');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('er_users', JSON.stringify(users));
+            localStorage.setItem('er_login_logs', JSON.stringify(loginLogs));
+            localStorage.setItem('er_withdrawals', JSON.stringify(withdrawalRequests));
+        }
+
+        function copyReferralLink() {
+            const shareInput = document.getElementById('shareUrlInput');
+            shareInput.select();
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(shareInput.value);
+            } else {
+                document.execCommand('copy');
+            }
+            showToast('Referral link copy ho gaya hai!', 'success');
+        }
+
+        function shareOnWhatsApp() {
+            if (!currentUser) return;
+            const shareUrl = document.getElementById('shareUrlInput').value;
+            const text = `EarnRefer join karo aur daily 5% growth + instant bonus kamao! Mera 10-Digit Referral ID hai: ${currentUser.id}\nJoin link: ${shareUrl}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function logout() {
+            currentUser = null;
+            sessionStorage.removeItem('er_active_user');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.add('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+            
+            document.getElementById('regMobile').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regDepositAmount').value = '';
+            document.getElementById('regSponsor').value = '';
+            document.getElementById('loginMobile').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            switchAuthTab('deposit');
+            showToast('Logged out successfully', 'info');
+        }
+    </script>
+</body>
+</html>
