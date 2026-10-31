@@ -1,9 +1,27 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="hi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EarnRefer - Multi-Reward Platform</title>
+
+    <!-- WhatsApp & Social Media Sharing Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:title" content="EarnRefer - 5% Daily Return + ₹100 Bonus & 40% Commission!">
+    <meta property="og:description" content="EarnRefer से जुड़ें और अपने डिपॉजिट पर रोजाना 5% डेली रिटर्न और ₹100 इंस्टेंट रेफरल बोनस कमाएं!">
+    <meta property="og:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=EarnRefer+Multi-Reward+Platform">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EarnRefer - Multi-Reward Platform">
+    <meta name="twitter:description" content="EarnRefer से जुड़ें और 5% डेली रिटर्न कमाएं!">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=EarnRefer+Multi-Reward+Platform">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -24,7 +42,7 @@
             }
         }
     </script>
-    <!-- Font Awesome -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +50,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* Custom layout theme settings & dark background graphics */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #090d16;
@@ -42,6 +61,7 @@
             background-attachment: fixed;
         }
 
+        /* Glassmorphism visual cards */
         .glass-card {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
@@ -58,6 +78,7 @@
             transform: translateY(-2px);
         }
 
+        /* Buttons & Text Gradient Styles */
         .gradient-btn {
             background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
             transition: all 0.25s ease;
@@ -73,6 +94,7 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -118,10 +140,10 @@
         <div id="authScreen" class="space-y-6 my-auto py-4 w-full">
             <div class="text-center space-y-2">
                 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-1">
-                    <i class="fa-solid fa-bolt text-xs"></i> Daily 5% Interest Growth
+                    <i class="fa-solid fa-bolt text-xs"></i> 5% Daily Growth on Self Deposit + 40% Commission
                 </div>
                 <h1 class="text-3xl font-black tracking-tight text-white">Welcome to <span class="gradient-text">EarnRefer</span></h1>
-                <p class="text-slate-400 text-xs sm:text-sm max-w-xs mx-auto">Deposit & grow your balance daily with instant referral rewards</p>
+                <p class="text-slate-400 text-xs sm:text-sm max-w-xs mx-auto">Deposit & grow your balance with instant referral rewards</p>
             </div>
 
             <!-- TABS SWITCHER -->
@@ -142,7 +164,7 @@
                     <h2 class="text-base font-extrabold text-white flex items-center gap-2">
                         <i class="fa-solid fa-circle-dollar-to-slot text-indigo-400"></i> Register New Account
                     </h2>
-                    <p class="text-[11px] text-slate-400">Deposit ₹199 to ₹1999 to start earning daily 5%</p>
+                    <p class="text-[11px] text-slate-400">Deposit ₹199 to ₹1999 to get started</p>
                 </div>
 
                 <div>
@@ -178,8 +200,8 @@
 
                 <div class="p-3.5 rounded-2xl bg-indigo-950/30 border border-indigo-500/20 space-y-1.5">
                     <p class="text-[11px] text-slate-300 leading-relaxed flex items-start gap-1.5">
-                        <i class="fa-solid fa-circle-info text-indigo-400 text-xs mt-0.5"></i>
-                        <span>Your deposit will be added to your Main Balance with a 5% daily growth rate!</span>
+                        <i class="fa-solid fa-chart-line text-emerald-400 text-xs mt-0.5"></i>
+                        <span>Aapke deposit par har 24 ghante mein 5% daily return seedhe balance mein judega!</span>
                     </p>
                 </div>
 
@@ -227,7 +249,7 @@
         <div id="dashboardScreen" class="hidden space-y-5 my-auto py-2">
             <div class="flex items-center justify-between text-xs font-medium text-slate-400 px-1">
                 <span class="flex items-center gap-1.5 text-emerald-400 font-semibold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Daily +5% Active
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> 5% Daily Growth Active
                 </span>
                 <span class="bg-slate-900 px-3 py-1 rounded-full border border-slate-800 text-slate-300">
                     Mobile: <strong id="userMobileDisplay" class="text-white font-mono">--</strong>
@@ -240,9 +262,32 @@
                 <p class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider mb-1">Your 10-Digit Referral ID</p>
                 <div class="flex items-center justify-between gap-2 mt-2">
                     <span id="user10DigitId" class="text-2xl font-black tracking-widest text-white font-mono">----------</span>
-                    <button onclick="copyReferralLink()" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 rounded-xl border border-indigo-500/30 transition-all active:scale-95 flex items-center gap-1.5 text-xs font-bold">
+                    <button onclick="copyOnlyReferralId()" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 rounded-xl border border-indigo-500/30 transition-all active:scale-95 flex items-center gap-1.5 text-xs font-bold">
                         <i class="fa-regular fa-copy text-sm"></i> Copy ID
                     </button>
+                </div>
+            </div>
+
+            <!-- DAILY RETURN CARD -->
+            <div class="glass-card p-5 rounded-2xl space-y-3 border-amber-500/30 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Self Deposit Daily Return (5%)</p>
+                        <h2 class="text-xl font-black text-white mt-1">₹<span id="dailyEarnAmount">0</span> <span class="text-xs text-slate-400 font-normal">/ day</span></h2>
+                    </div>
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px] pt-1 border-t border-slate-800">
+                    <div>
+                        <span class="text-slate-400 block">Your Active Deposit:</span>
+                        <span id="displayOwnDeposit" class="font-bold text-emerald-400 font-mono">₹0</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Next 5% Growth In:</span>
+                        <span id="nextYieldTimer" class="font-bold text-amber-300 font-mono">Calculating...</span>
+                    </div>
                 </div>
             </div>
 
@@ -268,18 +313,18 @@
                 </div>
             </div>
 
-            <!-- MAIN BALANCE CARD (grows 5% daily) -->
+            <!-- MAIN BALANCE CARD -->
             <div class="glass-card glass-card-hover p-5 rounded-2xl space-y-3 border-emerald-500/30 relative overflow-hidden">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Main Balance (+5% Daily)</p>
+                        <p class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Main Balance (Total)</p>
                         <h2 class="text-3xl font-black text-white mt-1">₹<span id="mainBalance">0</span></h2>
                     </div>
                     <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-inner">
                         <i class="fa-solid fa-wallet text-xl"></i>
                     </div>
                 </div>
-                <p class="text-xs text-slate-400">Grows automatically by 5% every 24 hours.</p>
+                <p class="text-xs text-slate-400">Includes Deposit + 40% Commission + 5% Daily Yields.</p>
 
                 <!-- MAIN BALANCE ACTIONS & WITHDRAWAL -->
                 <div class="pt-2 border-t border-slate-800/80 space-y-2">
@@ -474,16 +519,12 @@
                     </span>
                     <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
                 </button>
-
-                <div class="p-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-indigo-300 text-[11px] text-left leading-relaxed">
-                    <i class="fa-solid fa-triangle-exclamation text-indigo-400 mr-1"></i> Agar app na khule toh WhatsApp/Instagram se link ko <strong>Google Chrome</strong> mein open karein ya "QR / Manual UPI" tab use karein.
-                </div>
             </div>
 
             <!-- TAB 2: QR & MANUAL UPI COPY -->
             <div id="payQrSection" class="hidden space-y-3 pt-1">
                 <div class="bg-white p-3 rounded-2xl inline-block shadow-lg mx-auto border-2 border-indigo-500/30">
-                    <img id="dynamicQrImage" src="1000066838.jpg" alt="Payment QR Code" class="w-44 h-44 mx-auto object-contain rounded-lg">
+                    <img id="dynamicQrImage" src="https://placehold.co/200x200/ffffff/000000?text=Scan+UPI+QR" alt="Payment QR Code" class="w-44 h-44 mx-auto object-contain rounded-lg">
                 </div>
 
                 <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-2">
@@ -497,18 +538,20 @@
                 </div>
             </div>
 
-            <div class="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] text-left leading-relaxed space-y-1">
-                <p class="font-bold flex items-center gap-1.5 text-amber-400">
-                    <i class="fa-solid fa-circle-info"></i> Important Steps:
-                </p>
-                <p>1. Payment safaltapoorvak poora karein.</p>
-                <p>2. Payment ke baad niche <strong>"Payment Ho Gaya, Register Karein"</strong> button dabaayein.</p>
+            <!-- UTR NUMBER VERIFICATION INPUT SECTION -->
+            <div class="pt-2 border-t border-slate-800 text-left space-y-2">
+                <label class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider">
+                    <i class="fa-solid fa-receipt mr-1"></i> Enter 12-Digit UTR / Transaction ID
+                </label>
+                <input type="text" id="regUtrNumber" maxlength="12" placeholder="e.g. 401234567890" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-sm font-mono tracking-wider">
+                <p class="text-[10px] text-slate-400">Payment karne ke baad 12 ank ka UTR number darj karke register submit karein.</p>
+                
+                <button onclick="completeRegistrationAfterPayment()" class="w-full gradient-btn text-white py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-indigo-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-circle-check"></i> Verify UTR & Complete Registration
+                </button>
             </div>
 
             <div class="space-y-2 pt-1">
-                <button onclick="completeRegistrationAfterPayment()" class="w-full gradient-btn text-white py-3.5 rounded-xl font-extrabold text-xs tracking-wider uppercase shadow-lg shadow-indigo-500/20 transition-all active:scale-95 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i> Payment Ho Gaya, Register Karein
-                </button>
                 <button onclick="closePaymentModal()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold text-xs">
                     Cancel
                 </button>
@@ -575,22 +618,23 @@
         </div>
     </div>
 
-    <!-- LOGIC SCRIPT -->
+    <!-- APPLICATION LOGIC SCRIPT -->
     <script>
-        // State variables
+        // LocalStorage & Session state initialization
         let users = JSON.parse(localStorage.getItem('er_users')) || {};
         let loginLogs = JSON.parse(localStorage.getItem('er_login_logs')) || [];
         let withdrawalRequests = JSON.parse(localStorage.getItem('er_withdrawals')) || [];
         let currentUser = null;
         let pendingRegistration = null;
         let currentWithdrawType = null;
+        let timerInterval = null;
 
         const ADMIN_SECRET_PASS = "8825354587@#arkh";
         const MERCHANT_UPI_ID = "8825354587@ybl";
         const MERCHANT_NAME = "EarnRefer";
 
         window.onload = function() {
-            // Check for referral ID in URL parameter
+            // Read referral ID parameter if present in browser URL
             const urlParams = new URLSearchParams(window.location.search);
             const refParam = urlParams.get('ref');
             if (refParam && refParam.length === 10) {
@@ -598,36 +642,14 @@
                 if (sponsorInput) sponsorInput.value = refParam;
             }
 
-            // Calculate 5% Daily Growth
-            applyDailyInterest();
-
-            // Auto-restore login session
+            // Restore existing session
             const savedMobile = sessionStorage.getItem('er_active_user');
             if (savedMobile && users[savedMobile]) {
                 currentUser = users[savedMobile];
+                checkAndCalculate5PercentDailyYield(currentUser);
                 loadUserDashboard();
             }
         };
-
-        function applyDailyInterest() {
-            const now = Date.now();
-            const lastUpdate = localStorage.getItem('er_last_interest_time') || now;
-            const oneDayMs = 24 * 60 * 60 * 1000;
-
-            if (now - lastUpdate >= oneDayMs) {
-                const daysPassed = Math.floor((now - lastUpdate) / oneDayMs);
-                Object.keys(users).forEach(mob => {
-                    let u = users[mob];
-                    if (u.balance > 0) {
-                        for (let i = 0; i < daysPassed; i++) {
-                            u.balance = Math.round((u.balance * 1.05) * 100) / 100;
-                        }
-                    }
-                });
-                localStorage.setItem('er_users', JSON.stringify(users));
-                localStorage.setItem('er_last_interest_time', now);
-            }
-        }
 
         function switchAuthTab(tab) {
             const regBtn = document.getElementById('tabRegisterBtn');
@@ -750,6 +772,7 @@
             };
 
             document.getElementById('payModalAmount').innerText = `₹${depositAmt}`;
+            document.getElementById('regUtrNumber').value = '';
             switchPayMethod('apps');
             document.getElementById('paymentModal').classList.remove('hidden');
             document.getElementById('paymentModal').classList.add('flex');
@@ -771,7 +794,6 @@
             
             let targetUrl = standardUri;
 
-            // App-specific URI schemes
             if (appType === 'phonepe') {
                 targetUrl = `phonepe://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(note)}`;
             } else if (appType === 'gpay') {
@@ -781,62 +803,80 @@
             }
 
             showToast(`Opening UPI App for ₹${amt}...`, 'info');
-
-            // Attempt direct custom scheme launch
             window.location.href = targetUrl;
-
-            // Fallback to standard universal UPI link after timeout if custom scheme fails
-            setTimeout(function() {
-                window.location.href = standardUri;
-            }, 1200);
         }
 
         function copyUpiId() {
             const upiId = MERCHANT_UPI_ID;
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(upiId);
-            } else {
-                const tempInput = document.createElement('input');
-                tempInput.value = upiId;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-            }
+            const tempInput = document.createElement('input');
+            tempInput.value = upiId;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
             showToast('UPI ID copy ho gayi hai! Kishi bhi app me paste karke pay karein.', 'success');
         }
 
         function completeRegistrationAfterPayment() {
-            if (!pendingRegistration) return;
+            if (!pendingRegistration) {
+                showToast('Kripya pehle registration details bharein.', 'warning');
+                return;
+            }
+
+            const utrInput = document.getElementById('regUtrNumber').value.trim();
+
+            if (utrInput.length !== 12 || isNaN(utrInput)) {
+                showToast('Kripya sahi 12-digit UPI UTR / Transaction ID darj karein.', 'warning');
+                return;
+            }
+
+            // Prevent duplicating UTR entries
+            const isDuplicate = loginLogs.some(log => log.utr === utrInput);
+            if (isDuplicate) {
+                showToast('Yeh UTR Number pehle se use ho chuka hai! Dusra sahi UTR dalein.', 'error');
+                return;
+            }
 
             let uniqueId = generate10DigitId();
             while (Object.values(users).some(u => u.id === uniqueId)) {
                 uniqueId = generate10DigitId();
             }
 
-            const newUser = {
-                mobile: pendingRegistration.mobile,
-                password: pendingRegistration.password,
-                id: uniqueId,
-                sponsorId: pendingRegistration.sponsorId,
-                bonus: 0,
-                balance: pendingRegistration.depositAmt,
-                teamCount: 0,
-                bankDetails: null
-            };
+            let bonusAwarded = 0;
+            let commissionAwarded = 0;
 
-            // Process referral bonus & commission if valid sponsor ID provided
             if (pendingRegistration.sponsorId) {
                 let sponsorMobile = Object.keys(users).find(m => users[m].id === pendingRegistration.sponsorId);
                 if (sponsorMobile && users[sponsorMobile]) {
                     users[sponsorMobile].bonus = (users[sponsorMobile].bonus || 0) + 100;
+                    bonusAwarded = 100;
                     
                     let commission40 = pendingRegistration.depositAmt * 0.40;
-                    users[sponsorMobile].balance = Math.round(((users[sponsorMobile].balance || 0) + commission40) * 100) / 100;
+                    commissionAwarded = Math.round(commission40 * 100) / 100;
+                    users[sponsorMobile].balance = Math.round(((users[sponsorMobile].balance || 0) + commissionAwarded) * 100) / 100;
                     
                     users[sponsorMobile].teamCount = (users[sponsorMobile].teamCount || 0) + 1;
                 }
             }
+
+            const now = Date.now();
+
+            const newUser = {
+                mobile: pendingRegistration.mobile,
+                password: pendingRegistration.password,
+                id: uniqueId,
+                utr: utrInput,
+                sponsorId: pendingRegistration.sponsorId,
+                ownDeposit: pendingRegistration.depositAmt,
+                bonus: 0,
+                balance: pendingRegistration.depositAmt,
+                teamCount: 0,
+                bankDetails: null,
+                sponsorMobileUsed: pendingRegistration.sponsorId ? Object.keys(users).find(m => users[m].id === pendingRegistration.sponsorId) : null,
+                bonusAwardedToSponsor: bonusAwarded,
+                commissionAwardedToSponsor: commissionAwarded,
+                lastYieldTime: now
+            };
 
             users[pendingRegistration.mobile] = newUser;
 
@@ -844,8 +884,9 @@
                 date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
                 mobile: pendingRegistration.mobile,
                 userId: uniqueId,
+                utr: utrInput,
                 deposit: pendingRegistration.depositAmt,
-                method: 'UPI Direct / QR',
+                method: 'UPI App / QR',
                 sponsor: pendingRegistration.sponsorId || 'Direct'
             };
             loginLogs.push(logItem);
@@ -860,7 +901,30 @@
 
             switchAuthTab('login');
             document.getElementById('loginMobile').value = newUser.mobile;
-            showToast('Account Created! Aapka 10-Digit ID hai: ' + uniqueId + '. Ab Login karein.', 'success');
+            showToast('UTR Verified! Account Created Successfully. ID: ' + uniqueId, 'success');
+        }
+
+        function checkAndCalculate5PercentDailyYield(user) {
+            if (!user || !user.ownDeposit) return;
+
+            const now = Date.now();
+            const lastYield = user.lastYieldTime || now;
+            const msIn24Hours = 24 * 60 * 60 * 1000;
+            const elapsedTime = now - lastYield;
+
+            if (elapsedTime >= msIn24Hours) {
+                const daysPassed = Math.floor(elapsedTime / msIn24Hours);
+                const dailyProfitAmount = user.ownDeposit * 0.05;
+                const totalCredit = Math.round((dailyProfitAmount * daysPassed) * 100) / 100;
+
+                user.balance = Math.round(((user.balance || 0) + totalCredit) * 100) / 100;
+                user.lastYieldTime = lastYield + (daysPassed * msIn24Hours);
+
+                users[user.mobile] = user;
+                saveData();
+
+                showToast(`Daily 5% Deposit Return Credited! +₹${totalCredit}`, 'success');
+            }
         }
 
         function handleLogin() {
@@ -886,6 +950,7 @@
                 currentUser = users[mobile];
                 sessionStorage.setItem('er_active_user', mobile);
 
+                checkAndCalculate5PercentDailyYield(currentUser);
                 showToast('Login successful! Dashboard khul raha hai...', 'success');
                 loadUserDashboard();
             } else {
@@ -906,10 +971,16 @@
             
             const currentBonus = currentUser.bonus || 0;
             const currentMain = currentUser.balance || 0;
+            const ownDep = currentUser.ownDeposit || 0;
+            const dailyRate = Math.round((ownDep * 0.05) * 100) / 100;
 
+            document.getElementById('displayOwnDeposit').innerText = `₹${ownDep}`;
+            document.getElementById('dailyEarnAmount').innerText = `${dailyRate}`;
             document.getElementById('bonusBalance').innerText = currentBonus;
             document.getElementById('mainBalance').innerText = currentMain;
             document.getElementById('teamCount').innerText = currentUser.teamCount || 0;
+
+            startYieldTimer();
 
             const bonusBtn = document.getElementById('bonusWithdrawBtn');
             const bonusStatus = document.getElementById('bonusWithdrawStatus');
@@ -952,6 +1023,29 @@
 
             const baseUrl = window.location.origin + window.location.pathname;
             document.getElementById('shareUrlInput').value = `${baseUrl}?ref=${currentUser.id}`;
+        }
+
+        function startYieldTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (!currentUser || !currentUser.lastYieldTime) return;
+
+                const now = Date.now();
+                const nextYieldTime = (currentUser.lastYieldTime || now) + (24 * 60 * 60 * 1000);
+                const diff = nextYieldTime - now;
+
+                if (diff <= 0) {
+                    checkAndCalculate5PercentDailyYield(currentUser);
+                    loadUserDashboard();
+                } else {
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('nextYieldTimer').innerText = `${hours}h ${minutes}m ${seconds}s`;
+                }
+            }, 1000);
         }
 
         function initiateWithdrawal(type) {
@@ -1137,9 +1231,10 @@
                             <span class="font-bold text-white">Mobile: ${u.mobile}</span>
                             <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full font-mono">ID: ${u.id}</span>
                         </div>
-                        <div class="grid grid-cols-3 gap-1 text-[11px] text-slate-300">
+                        <div class="grid grid-cols-2 gap-1 text-[11px] text-slate-300">
                             <p>Main Bal: <strong class="text-emerald-400">₹${u.balance}</strong></p>
-                            <p>Bonus: <strong class="text-purple-400">₹${u.bonus}</strong></p>
+                            <p>Deposit: <strong class="text-amber-400">₹${u.ownDeposit}</strong></p>
+                            <p>UTR: <strong class="text-cyan-300 font-mono">${u.utr || 'N/A'}</strong></p>
                             <p>Team: <strong class="text-indigo-400">${u.teamCount}</strong></p>
                         </div>
                         <div class="text-[11px] text-slate-400 border-t border-slate-800/60 pt-1">
@@ -1167,7 +1262,10 @@
                     item.innerHTML = `
                         <div class="flex justify-between items-center text-slate-300 font-bold">
                             <span>Mobile: ${log.mobile} (${log.userId})</span>
-                            <span class="text-emerald-400 font-mono">₹${log.deposit} via ${log.method || 'UPI Direct App'}</span>
+                            <span class="text-emerald-400 font-mono">₹${log.deposit}</span>
+                        </div>
+                        <div class="text-[11px] text-cyan-300 font-mono">
+                            <span>UTR: ${log.utr || 'N/A'}</span>
                         </div>
                         <div class="flex justify-between text-[11px] text-slate-400">
                             <span>Sponsor ID: ${log.sponsor}</span>
@@ -1190,6 +1288,22 @@
         }
 
         function deleteUserAccount(mobile) {
+            let targetUser = users[mobile];
+            if (!targetUser) return;
+
+            if (targetUser.sponsorMobileUsed && users[targetUser.sponsorMobileUsed]) {
+                let sponsor = users[targetUser.sponsorMobileUsed];
+                
+                let bDeduct = targetUser.bonusAwardedToSponsor || 100;
+                let cDeduct = targetUser.commissionAwardedToSponsor || 0;
+
+                sponsor.bonus = Math.max(0, (sponsor.bonus || 0) - bDeduct);
+                sponsor.balance = Math.max(0, Math.round(((sponsor.balance || 0) - cDeduct) * 100) / 100);
+                sponsor.teamCount = Math.max(0, (sponsor.teamCount || 0) - 1);
+
+                users[targetUser.sponsorMobileUsed] = sponsor;
+            }
+
             delete users[mobile];
             saveData();
             showToast('User account successfully delete kar diya gaya!', 'success');
@@ -1211,25 +1325,40 @@
             localStorage.setItem('er_withdrawals', JSON.stringify(withdrawalRequests));
         }
 
+        function copyOnlyReferralId() {
+            if (!currentUser) return;
+            const idStr = currentUser.id;
+            const tempInput = document.createElement('input');
+            tempInput.value = idStr;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Referral ID (' + idStr + ') copy ho gaya hai!', 'success');
+        }
+
         function copyReferralLink() {
             const shareInput = document.getElementById('shareUrlInput');
             shareInput.select();
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(shareInput.value);
-            } else {
-                document.execCommand('copy');
-            }
+            document.execCommand('copy');
             showToast('Referral link copy ho gaya hai!', 'success');
         }
 
         function shareOnWhatsApp() {
             if (!currentUser) return;
             const shareUrl = document.getElementById('shareUrlInput').value;
-            const text = `EarnRefer join karo aur daily 5% growth + instant bonus kamao! Mera 10-Digit Referral ID hai: ${currentUser.id}\nJoin link: ${shareUrl}`;
+            const text = `🔥 *EarnRefer Dhamakedar Offer!* 🔥\n\n` +
+                         `💰 5% Daily Return on Deposit (₹199 - ₹1999)\n` +
+                         `🎁 ₹100 Instant Bonus + 40% Commission\n` +
+                         `⚡ Fast & Secure Withdrawals!\n\n` +
+                         `Mera Referral ID hai: *${currentUser.id}*\n\n` +
+                         `Aaj hi Join Karein: ${shareUrl}`;
+            
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function logout() {
+            if (timerInterval) clearInterval(timerInterval);
             currentUser = null;
             sessionStorage.removeItem('er_active_user');
             document.getElementById('dashboardScreen').classList.add('hidden');
@@ -1250,3 +1379,4 @@
     </script>
 </body>
 </html>
+```
